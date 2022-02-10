@@ -1,0 +1,65 @@
+.Setup {
+    width: 100%;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: slategray;
+    padding: 10px;
+}
+
+.SetupForm {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.SetupButton {
+    background-color: rgb(89, 113, 117);
+    color:oldlace;
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    margin: 10px;
+    border: 2px solid snow;
+}
+
+.SetupButton:hover {
+    background-color: rgb(28, 179, 65);
+    cursor: pointer;
+}
+
+.SetupButton:active {
+    background-color: rgb(12, 82, 29);
+    cursor: cell;
+}
+
+input {
+    height: 1.5rem;
+    width: 4rem;
+    background-color: rgb(117, 151, 185);
+    font-size: 1.25rem;
+    border: 2px solid snow;
+}
+
+select {
+    height: 2.5rem;
+    background-color: rgb(117, 151, 185);
+    font-size: 1.25rem;
+    border: 2px solid snow;
+}
+
+.InputGroup {
+    margin: 10px;
+}
+
+.InputLabel {
+    margin-right: 0.5em;
+}
+
+.hide {
+    display: 'none'
+}

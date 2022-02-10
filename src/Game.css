@@ -1,0 +1,11 @@
+.memoryCards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.wrongGuesses {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
