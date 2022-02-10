@@ -54,7 +54,7 @@ class Setup extends Component {
                     </div>
                     <div className="InputGroup" key="showColorNamesInputGroup">
                         <label className="InputLabel" key="showColorNamesInputLabel" htmlFor="showColorNames">Display color names:</label>
-                        <select name="showColorNames" key="showColorNames" id="showColorNames" value="immediately" onChange={this.handleChange.bind(this)}>
+                        <select name="showColorNames" key="showColorNames" id="showColorNames" value={this.state.showColorNames} onChange={this.handleChange.bind(this)}>
                             {this.showColorNamesOptions.map(opt =>
                                 <option value={opt.value} key={opt.value}>{opt.text}</option>
                             )}
@@ -62,7 +62,7 @@ class Setup extends Component {
                     </div>
                     <div className="InputGroup" key="colorPaletteNameInputGroup">
                         <label className="InputLabel" key="colorPaletteNameInputLabel" htmlFor="colorPaletteName">Select color palette:</label>
-                        <select name="colorPaletteName" key="colorPaletteName" id="colorPaletteName" value="HTMLcolors" onChange={this.handleChange.bind(this)}>
+                        <select name="colorPaletteName" key="colorPaletteName" id="colorPaletteName" value={this.state.colorPaletteName} onChange={this.handleChange.bind(this)}>
                             {this.colorPaletteNameOptions.map(opt =>
                                 <option value={opt.value} key={opt.value}>{opt.text}</option>
                             )}
@@ -70,7 +70,7 @@ class Setup extends Component {
                     </div>
 
                     <button className="SetupButton" style={shouldSave ? { backgroundColor: 'hsl(30,75%,50%)' } : null}>Save Settings</button>
-                </form>
+                </form >
             </div >
         );
     }
