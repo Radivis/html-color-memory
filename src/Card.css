@@ -12,4 +12,8 @@
     border-radius: 20px;
     margin: 5px;
     padding: 10px;
+    transition: transform 0.2s;
+    transition-property: background-color;
+    transition-timing-function:ease-out;
+    cursor: pointer;
 }

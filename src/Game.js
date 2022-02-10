@@ -97,7 +97,7 @@ class Game extends Component {
                     const turnedCards = prevState.turned.slice();
                     const foundCards = turnedCards.filter(ind => ind !== index && !revealedIndices.includes(ind));
                     return { turned: foundCards, cooldown: false };
-                }), 1000)
+                }), 1200)
                 // if all cards match, store them in the "found" array!
             } else if (this.state.turned.length % cardsPerColor === 0) {
                 this.setState((prevState, props) => {
@@ -167,6 +167,7 @@ class Game extends Component {
                 <div className="memoryCards">
                     {this.state.cards.map((card, index) => <Card
                         index={index}
+                        key={`card-${index}`}
                         color={card}
                         clickHandler={this.turnCard.bind(this)}
                         turned={this.state.turned.includes(index) ? true : false}

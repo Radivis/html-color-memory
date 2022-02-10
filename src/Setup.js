@@ -28,41 +28,43 @@ class Setup extends Component {
         const { hideSettings, shouldSave } = this.props;
 
         return (
-            <div className="Setup" style={hideSettings ? { display: 'none' } : null}>
-                <form className="SetupForm" onSubmit={this.props.changeSettings}>
-                    <div className="InputGroup">
-                        <label className="InputLabel" for="colorNumber">Number of colors:</label>
+            <div className="Setup" key="Setup" style={hideSettings ? { display: 'none' } : null}>
+                <form className="SetupForm" key="SetupForm" onSubmit={this.props.changeSettings}>
+                    <div className="InputGroup" key="colorNumberInputGroup">
+                        <label className="InputLabel" key="colorNumberInputLabel" htmlFor="colorNumber">Number of colors:</label>
                         <input type="number"
                             id="colorNumber"
+                            key="colorNumber"
                             name="colorNumber"
                             value={colorNumber}
                             min={1}
                             max={120}
                             onChange={this.handleChange.bind(this)}></input>
                     </div>
-                    <div className="InputGroup">
-                        <label className="InputLabel" for="cardsPerColor">Cards per color:</label>
+                    <div className="InputGroup" key="cardsPerColorInputGroup">
+                        <label className="InputLabel" key="cardsPerColorInputLabel" htmlFor="cardsPerColor">Cards per color:</label>
                         <input type="number"
                             id="cardsPerColor"
+                            key="cardsPerColor"
                             name="cardsPerColor"
                             value={cardsPerColor}
                             min={1}
                             max={20}
                             onChange={this.handleChange.bind(this)}></input>
                     </div>
-                    <div className="InputGroup">
-                        <label className="InputLabel" for="showColorNames">Display color names:</label>
-                        <select name="showColorNames" id="showColorNames" onChange={this.handleChange.bind(this)}>
+                    <div className="InputGroup" key="showColorNamesInputGroup">
+                        <label className="InputLabel" key="showColorNamesInputLabel" htmlFor="showColorNames">Display color names:</label>
+                        <select name="showColorNames" key="showColorNames" id="showColorNames" value="immediately" onChange={this.handleChange.bind(this)}>
                             {this.showColorNamesOptions.map(opt =>
-                                <option value={opt.value} {...opt.default ? "selected" : null}>{opt.text}</option>
+                                <option value={opt.value} key={opt.value}>{opt.text}</option>
                             )}
                         </select>
                     </div>
-                    <div className="InputGroup">
-                        <label className="InputLabel" for="colorPaletteName">Select color palette:</label>
-                        <select name="colorPaletteName" id="colorPaletteName" onChange={this.handleChange.bind(this)}>
+                    <div className="InputGroup" key="colorPaletteNameInputGroup">
+                        <label className="InputLabel" key="colorPaletteNameInputLabel" htmlFor="colorPaletteName">Select color palette:</label>
+                        <select name="colorPaletteName" key="colorPaletteName" id="colorPaletteName" value="HTMLcolors" onChange={this.handleChange.bind(this)}>
                             {this.colorPaletteNameOptions.map(opt =>
-                                <option value={opt.value} {...opt.default ? "selected" : null}>{opt.text}</option>
+                                <option value={opt.value} key={opt.value}>{opt.text}</option>
                             )}
                         </select>
                     </div>
