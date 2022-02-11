@@ -87,11 +87,25 @@ class App extends Component {
     return colors;
   }
 
+  generateSimpleHSLColors() {
+    const colors = [];
+    for (let hue = 0; hue < 360; hue += 60) { // red, yellow, green, cyan, blue, violet
+      for (let saturation = 50; saturation <= 100; saturation += 50) { // faded, vivid
+        for (let lightness = 25; lightness < 100; lightness += 50) { // light, dark
+          colors.push(`hsl(${hue},${saturation}%,${lightness}%)`);
+        }
+      }
+    }
+    colors.push("white");
+    return colors;
+  }
+
   pickColorPalette() {
     const { colorPaletteName } = this.state;
     const colorPalettes = new Map;
     colorPalettes.set("HTMLcolors", this.defaultColors);
     colorPalettes.set("HSLcolors", this.generateHSLColors());
+    colorPalettes.set("SimpleHSLcolors", this.generateSimpleHSLColors());
     return colorPalettes.get(colorPaletteName);
   }
 

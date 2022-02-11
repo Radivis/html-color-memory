@@ -21,6 +21,7 @@ class Setup extends Component {
     colorPaletteNameOptions = [
         { value: 'HTMLcolors', text: 'HTML colors', default: true }
         , { value: 'HSLcolors', text: 'HSL colors', default: false }
+        , { value: 'SimpleHSLcolors', text: 'Simple HSL colors', default: false }
     ];
 
     render() {
@@ -38,7 +39,7 @@ class Setup extends Component {
                             name="colorNumber"
                             value={colorNumber}
                             min={1}
-                            max={120}
+                            max={this.state.colorPaletteName === "SimpleHSLcolors" ? 24 : 120}
                             onChange={this.handleChange.bind(this)}></input>
                     </div>
                     <div className="InputGroup" key="cardsPerColorInputGroup">
