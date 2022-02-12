@@ -22,6 +22,7 @@ class Setup extends Component {
         { value: 'HTMLcolors', text: 'HTML colors', default: true }
         , { value: 'HSLcolors', text: 'HSL colors', default: false }
         , { value: 'SimpleHSLcolors', text: 'Simple HSL colors', default: false }
+        , { value: 'PsychoHSLcolors', text: 'Psycho HSL colors', default: false }
     ];
 
     render() {

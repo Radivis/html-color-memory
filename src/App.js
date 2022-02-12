@@ -100,12 +100,26 @@ class App extends Component {
     return colors;
   }
 
+  generatePsychoHSLColors() {
+    const colors = [];
+    for (let hue = 0; hue < 360; hue += 15) { // red, orange, yellow, chartreuse, green, teal, cyan, azure, blue, indigo, violet, purple
+      for (let saturation = 12.5; saturation <= 100; saturation += 12.5) { // grayish, faded, pastel ,vivid
+        for (let lightness = 12.5; lightness < 100; lightness += 12.5) { // light, medium, dark
+          colors.push(`hsl(${hue},${saturation}%,${lightness}%)`);
+        }
+      }
+    }
+    colors.push("white");
+    return colors;
+  }
+
   pickColorPalette() {
     const { colorPaletteName } = this.state;
     const colorPalettes = new Map;
     colorPalettes.set("HTMLcolors", this.defaultColors);
     colorPalettes.set("HSLcolors", this.generateHSLColors());
     colorPalettes.set("SimpleHSLcolors", this.generateSimpleHSLColors());
+    colorPalettes.set("PsychoHSLcolors", this.generatePsychoHSLColors());
     return colorPalettes.get(colorPaletteName);
   }
 

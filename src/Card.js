@@ -22,9 +22,34 @@ function Card(props) {
                 components[1] = components[1].slice(0, 2);
                 components[2] = components[2].slice(0, 2);
                 let colorName = [];
-                const hues = { 0: "red", 30: "orange", 60: "yellow", 90: "chartreuese", 120: "green", 150: "teal", 180: "cyan", 210: "azure", 240: "blue", 270: "indigo", 300: "violet", 330: "purple" };
-                const saturations = { 25: "grayish", 50: "faded", 75: "pastel", 10: "vivid" };
-                const lightnesses = { 25: "dark", 50: "medium", 75: "light" };
+                const hues = {
+                    0: "red"
+                    , 15: "orange red"
+                    , 30: "orange"
+                    , 45: "amber"
+                    , 60: "yellow"
+                    , 75: "lime"
+                    , 90: "chartreuese"
+                    , 105: "harlquin"
+                    , 120: "green"
+                    , 135: "spring green"
+                    , 150: "teal"
+                    , 165: "turquoise"
+                    , 180: "cyan"
+                    , 195: "sky blue"
+                    , 210: "azure"
+                    , 225: "navy blue"
+                    , 240: "blue"
+                    , 255: "han purple"
+                    , 270: "indigo"
+                    , 285: "orchid"
+                    , 300: "violet"
+                    , 315: "pink"
+                    , 330: "purple"
+                    , 345: "crimson"
+                };
+                const saturations = { 12: "grayest", 25: "grayish", 37: "dull", 50: "faded", 62: "muted", 75: "pastel", 87: "brilliant", 10: "vivid" };
+                const lightnesses = { 12: "darkest", 25: "dark", 37: "shadowy", 50: "medium", 62: "soft", 75: "light", 87: "shining" };
                 return `${lightnesses[components[2]]} ${saturations[components[1]]} ${hues[components[0]]}`;
             } else {
                 return nameSplit(color);
