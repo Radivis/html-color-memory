@@ -19,15 +19,26 @@ class Setup extends Component {
     ];
 
     colorPaletteNameOptions = [
-        { value: 'HTMLcolors', text: 'HTML colors', default: true }
-        , { value: 'HSLcolors', text: 'HSL colors', default: false }
-        , { value: 'SimpleHSLcolors', text: 'Simple HSL colors', default: false }
-        , { value: 'PsychoHSLcolors', text: 'Psycho HSL colors', default: false }
+        { value: 'HTMLcolors', text: 'HTML colors', number: 139, default: true }
+        , { value: 'HSLcolors', text: 'HSL colors', number: 145, default: false }
+        , { value: 'SimpleHSLcolors', text: 'Simple HSL colors', number: 25, default: false }
+        , { value: 'PsychoHSLcolors', text: 'Psycho HSL colors', number: 1345, default: false }
     ];
+
+    getMaxColorNumber() {
+        let result = 0;
+        this.colorPaletteNameOptions.forEach(palette => {
+            if (this.state.colorPaletteName === palette.value) {
+                result = palette.number;
+            }
+        })
+        return result;
+    }
 
     render() {
         const { colorNumber, cardsPerColor, showColorNames, palette } = this.state;
         const { hideSettings, shouldSave } = this.props;
+        let maxColors = this.getMaxColorNumber.call(this);
 
         return (
             <div className="Setup" key="Setup" style={hideSettings ? { display: 'none' } : null}>
@@ -40,7 +51,7 @@ class Setup extends Component {
                             name="colorNumber"
                             value={colorNumber}
                             min={1}
-                            max={this.state.colorPaletteName === "SimpleHSLcolors" ? 24 : 120}
+                            max={maxColors}
                             onChange={this.handleChange.bind(this)}></input>
                     </div>
                     <div className="InputGroup" key="cardsPerColorInputGroup">
