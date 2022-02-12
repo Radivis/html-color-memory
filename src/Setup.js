@@ -23,6 +23,7 @@ class Setup extends Component {
         , { value: 'HSLcolors', text: 'HSL colors', number: 145, default: false }
         , { value: 'SimpleHSLcolors', text: 'Simple HSL colors', number: 25, default: false }
         , { value: 'PsychoHSLcolors', text: 'Psycho HSL colors', number: 1345, default: false }
+        , { value: 'RGBcolors', text: 'RGB colors', number: 215, default: false }
     ];
 
     getMaxColorNumber() {

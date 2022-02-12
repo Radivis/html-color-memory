@@ -113,6 +113,19 @@ class App extends Component {
     return colors;
   }
 
+  generateRGBColors() {
+    const colors = [];
+    for (let r = 0; r <= 255; r += 51) {
+      for (let g = 0; g <= 255; g += 51) {
+        for (let b = 0; b <= 255; b += 51) {
+          colors.push(`rgb(${r},${g},${b})`);
+        }
+      }
+    }
+    colors.shift() // Remove Black / rgb(0,0,0)
+    return colors;
+  }
+
   pickColorPalette() {
     const { colorPaletteName } = this.state;
     const colorPalettes = new Map;
@@ -120,6 +133,7 @@ class App extends Component {
     colorPalettes.set("HSLcolors", this.generateHSLColors());
     colorPalettes.set("SimpleHSLcolors", this.generateSimpleHSLColors());
     colorPalettes.set("PsychoHSLcolors", this.generatePsychoHSLColors());
+    colorPalettes.set("RGBcolors", this.generateRGBColors());
     return colorPalettes.get(colorPaletteName);
   }
 

@@ -51,7 +51,9 @@ function Card(props) {
                 const saturations = { 12: "grayest", 25: "grayish", 37: "dull", 50: "faded", 62: "muted", 75: "pastel", 87: "brilliant", 10: "vivid" };
                 const lightnesses = { 12: "darkest", 25: "dark", 37: "shadowy", 50: "medium", 62: "soft", 75: "light", 87: "shining" };
                 return `${lightnesses[components[2]]} ${saturations[components[1]]} ${hues[components[0]]}`;
-            } else {
+            } else if (color.slice(0, 3) === "rgb") {
+                return color.slice().split(',').join(" ");
+            } else { // HTML colors
                 return nameSplit(color);
             }
         }
