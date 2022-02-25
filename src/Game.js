@@ -9,24 +9,116 @@ class Game extends Component {
     constructor(props) {
         super(props);
         this.startGame();
+        this.resetGame();
     }
 
-    startGame() {
+    async startGame() {
         const { colorPalette, colorNumber, cardsPerColor, showColorNames, shouldReset, shouldResetHandler } = this.props;
-        this.state = { colors: this.initializeColors(colorPalette, colorNumber), found: [], turned: [], cooldown: false, wrongGuesses: 0, gameOver: false };
+        this.state = {
+            colors: this.initializeColors(colorPalette, colorNumber)
+            , found: []
+            , turned: []
+            , cooldown: false
+            , wrongGuesses: 0
+            , gameOver: false
+            , scale: 1
+            , flexDirection: "column"
+            , containerHeight: window.innerHeight
+        };
         this.state.cards = this.initializeCards(this.state.colors, cardsPerColor);
+        await this.setScale();
+        console.log("Scale after initialization:", this.state.scale);
+        console.log("ContainerWidth after initialization:", this.state.containerWidth);
     }
 
     async resetGame() {
         const { colorPalette, colorNumber, cardsPerColor, showColorNames, shouldReset, shouldResetHandler } = this.props;
         await this.setState({ colors: this.initializeColors(colorPalette, colorNumber), found: [], turned: [], cooldown: false, wrongGuesses: 0, gameOver: false });
         await this.setState({ cards: this.initializeCards(this.state.colors, cardsPerColor) });
+        await this.setScale();
+        console.log("Scale after re-initialization:", this.state.scale);
+        console.log("ContainerWidth after re-initialization:", this.state.containerWidth);
         shouldResetHandler();
     }
 
     restartGame() {
         let guesses = this.state.wrongGuesses;
         this.setState({ found: [], turned: [], cooldown: false, wrongGuesses: guesses, gameOver: false });
+    }
+
+    /* Old version of scaling algorithm
+    setScale() { // compute optimal scale for card size
+        const cardNum = this.props.colorNumber * this.props.cardsPerColor;
+        console.log("setScale called. Current card number:", cardNum);
+
+        // Step 1: Find out how many cards would fit the current viewscreen given its total size and the current scale
+        const viewWidth = window.innerWidth;
+        const viewHeight = window.innerHeight - 200; // deduct some space for the nav and setting bars
+        const viewArea = viewWidth * viewHeight;
+        const aspectRatio = viewWidth / viewHeight;
+        console.log("Viewport aspect ratio", aspectRatio);
+
+        let cardSize = 190 * this.state.scale; // 160px + 2*10px border + 2*5px margin, see Card.css
+
+        let cardSpaceOnScreen = Math.floor(viewArea / cardSize ** 2); // not needed?
+
+        // Step 2: find largest number of cards in a row that makes the card field square while best approximating the aspect ratio of the current viewscreen
+        let rowLength = 1;
+        let bestRatio = 1000; // Random bad starting point for the aspect ratio of the game board
+        for (let l = 1; l <= cardNum; l++) {
+            if (cardNum % l === 0) { // Rectangular game board solution
+                let columnLength = cardNum / l;
+                let gameBoardAspectRatio = l / columnLength;
+                if (Math.abs(gameBoardAspectRatio - aspectRatio) < Math.abs(bestRatio - aspectRatio)) {
+                    bestRatio = gameBoardAspectRatio;
+                    rowLength = l;
+                }
+            }
+        }
+
+        console.log("Best approximating Ratio:", bestRatio);
+        console.log("Best row length:", rowLength);
+
+        const columnLength = cardNum / rowLength;
+
+        console.log("Best column length:", columnLength);
+        console.log("Best scale:", viewHeight / (cardSize * columnLength));
+
+        // Step 3: Adjust scale so that all cards fit on the screen at once, with some margin to enable a rectangular card setup
+
+        const scale = viewHeight / (cardSize * columnLength);
+
+        this.setState({ scale: scale, containerWidth: rowLength * 190 * scale });
+    } */
+
+    setScale() { // compute optimal scale for card size
+        const cardNum = this.props.colorNumber * this.props.cardsPerColor;
+        console.log("setScale called. Current card number:", cardNum);
+
+        // Step 1: Find out how many cards would fit the current viewscreen given its total size and the current scale
+        const viewWidth = window.innerWidth;
+        const viewHeight = window.innerHeight - 200; // deduct some space for the nav and setting bars and wrong guesses display
+        const viewArea = viewWidth * viewHeight;
+        const aspectRatio = viewWidth / viewHeight;
+        console.log("Viewport aspect ratio", aspectRatio);
+
+        let defaultCardSize = 200; // see Card.css
+
+        // Step 2: find largest number of cards in a row that makes the card field square while best approximating the aspect ratio of the current viewscreen
+        let blankAreaArray = [] // Collect the blank spaces for each number of columns
+        let idealScaleArray = [] // Collect the optimal scales for each number of columns
+        for (let c = 1; c <= cardNum; c++) { // c = number of columns of cards
+            let idealScale = 1 / defaultCardSize * Math.sqrt(viewArea / ((cardNum % c) + (c * Math.floor(cardNum / c))));
+            let blankArea = viewArea - ((cardNum % c) + (c * Math.floor(cardNum / c))) * (defaultCardSize * idealScale) ** 2;
+            blankAreaArray.push(blankArea);
+            idealScaleArray.push(idealScale);
+        }
+        const c = blankAreaArray.indexOf(Math.min(...blankAreaArray));
+        const idealScale = idealScaleArray[c];
+
+        // Step 3: Adjust scale so that all cards fit on the screen at once, with some margin to enable a rectangular card setup
+
+        this.setState({ scale: 0.85 * idealScale, containerHeight: viewHeight /* c * Math.floor(cardNum / c) * defaultCardSize * idealScale */ });
     }
 
     getRandomIndex(arr) {
@@ -150,7 +242,10 @@ class Game extends Component {
     }
 
     render() {
-        let { wrongGuesses } = this.state;
+        let { wrongGuesses, flexDirection, containerHeight } = this.state;
+        const containerStyle = { flexDirection: flexDirection, height: containerHeight, width: window.innerWidth, padding: "0px" };
+        console.log("Using containerHeight:", containerHeight);
+        console.log("Using scale:", this.state.scale);
         return (
             <div className="gameContainer">
                 <header className="App-header">
@@ -164,7 +259,7 @@ class Game extends Component {
                 <span className="wrongGuesses">Wrong guesses:
                     <span className="wrongGuesses" style={this.wrongGuessesStyle(wrongGuesses)}> {wrongGuesses}</span>
                 </span>
-                <div className="memoryCards">
+                <div className="memoryCards" style={containerStyle}>
                     {this.state.cards.map((card, index) => <Card
                         index={index}
                         key={`card-${index}`}
@@ -173,7 +268,8 @@ class Game extends Component {
                         turned={this.state.turned.includes(index) ? true : false}
                         found={this.state.found.includes(index) ? true : false}
                         gameOver={this.state.gameOver}
-                        showColorNames={this.props.showColorNames} />)}
+                        showColorNames={this.props.showColorNames}
+                        scale={this.state.scale} />)}
                 </ div>
 
             </div >

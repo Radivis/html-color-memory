@@ -2,9 +2,27 @@ import React from 'react';
 import './Card.css'
 
 function Card(props) {
-    const { index, color, gameOver, clickHandler } = props;
+    const { index, color, gameOver, clickHandler, scale } = props;
     let { turned, found, showColorNames } = props;
-    let cardStyle = turned ? { backgroundColor: color } : { backgroundColor: "black" };
+    // let cardStyle = turned ? { backgroundColor: color } : { backgroundColor: "black" };
+
+    const fontSize = Math.floor(24 * scale);
+    const cardSize = Math.floor(160 * scale);
+    const cardBorder = Math.floor(10 * scale);
+    const cardBorderRadius = Math.floor(20 * scale);
+    const cardMargin = Math.floor(5 * scale);
+    const cardPadding = Math.floor(10 * scale);
+
+    const cardStyle = {
+        fontSize: `${fontSize}px`,
+        width: `${cardSize}px`,
+        height: `${cardSize}px`,
+        border: `black ${cardBorder}px solid`,
+        borderRadius: `${cardBorderRadius}px`,
+        margin: `${cardMargin}px`,
+        padding: `${cardPadding}px`,
+        backgroundColor: turned ? color : "black"
+    }
 
     function cardName() {
         if (showColorNames === 'onGameOver' && !gameOver) {

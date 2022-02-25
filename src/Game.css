@@ -1,8 +1,13 @@
+.gameContainer {
+    background-color: lightslategray;
+}
+
 .memoryCards {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content:flex-start;
+    align-content: center;
+    align-items: flex-start;
 }
 
 .wrongGuesses {
