@@ -26,9 +26,15 @@ class Game extends Component {
             , containerHeight: window.innerHeight
         };
         this.state.cards = this.initializeCards(this.state.colors, cardsPerColor);
+
+        // Calling card board scaling 
         await this.setScale();
-        console.log("Scale after initialization:", this.state.scale);
-        console.log("ContainerWidth after initialization:", this.state.containerWidth);
+        let debouncingTimeout = setTimeout(this.setScale.bind(this), 250);
+        window.addEventListener('resize', () => {
+            clearTimeout(debouncingTimeout);
+            debouncingTimeout = setTimeout(this.setScale.bind(this), 250);
+
+        });
     }
 
     async resetGame() {
@@ -36,8 +42,7 @@ class Game extends Component {
         await this.setState({ colors: this.initializeColors(colorPalette, colorNumber), found: [], turned: [], cooldown: false, wrongGuesses: 0, gameOver: false });
         await this.setState({ cards: this.initializeCards(this.state.colors, cardsPerColor) });
         await this.setScale();
-        console.log("Scale after re-initialization:", this.state.scale);
-        console.log("ContainerWidth after re-initialization:", this.state.containerWidth);
+
         shouldResetHandler();
     }
 
@@ -93,14 +98,12 @@ class Game extends Component {
 
     setScale() { // compute optimal scale for card size
         const cardNum = this.props.colorNumber * this.props.cardsPerColor;
-        console.log("setScale called. Current card number:", cardNum);
 
         // Step 1: Find out how many cards would fit the current viewscreen given its total size and the current scale
         const viewWidth = window.innerWidth;
         const viewHeight = window.innerHeight - 200; // deduct some space for the nav and setting bars and wrong guesses display
         const viewArea = viewWidth * viewHeight;
         const aspectRatio = viewWidth / viewHeight;
-        console.log("Viewport aspect ratio", aspectRatio);
 
         let defaultCardSize = 200; // see Card.css
 
@@ -244,8 +247,6 @@ class Game extends Component {
     render() {
         let { wrongGuesses, flexDirection, containerHeight } = this.state;
         const containerStyle = { flexDirection: flexDirection, height: containerHeight, width: window.innerWidth, padding: "0px" };
-        console.log("Using containerHeight:", containerHeight);
-        console.log("Using scale:", this.state.scale);
         return (
             <div className="gameContainer">
                 <header className="App-header">

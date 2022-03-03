@@ -1,8 +1,9 @@
 .menu {
-    width:100%;
+    width: 100%;
     background-color: hsla(218, 25%, 25%, 1);
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
 }
